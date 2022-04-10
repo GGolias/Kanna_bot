@@ -26,14 +26,14 @@ async def on_ready():
 # Efetua boas vindas
 @client.event
 async def on_member_join(member):
-  channel = client.get_channel(961343761986764943)
-  await channel.send("Seja bem Vindo(a)! Me ajude a sair do porão!")
+  channel = client.get_channel(962462461171228765)
+  await channel.send(f"Seja bem Vindo(a)! {member.mention} Me ajude a sair do porão!")
 
 # Se despede 
 @client.event
 async def on_member_remove(member):
-  channel = client.get_channel(961343761986764943)
-  await channel.send("Espero que tenha gostado de tomar uma breja comigo... eh digo suco hehe")
+  channel = client.get_channel(962462461171228765)
+  await channel.send(f"Espero que tenha gostado de tomar uma breja comigo {member.mention}... eh digo suco hehe")
 
 # ==================================== Comandos ====================================
 
