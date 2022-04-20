@@ -1,6 +1,8 @@
 # Importando Bibliotecas
+from email import message
 import discord
 import os
+from numpy import source
 import requests
 from dotenv import load_dotenv, find_dotenv
 from discord.ext import commands
@@ -29,11 +31,12 @@ async def on_member_join(member):
   channel = client.get_channel(962462461171228765)
   await channel.send(f"Seja bem Vindo(a)! {member.mention} Me ajude a sair do porão!")
 
-# Se despede 
+# Se despede
 @client.event
 async def on_member_remove(member):
   channel = client.get_channel(962462461171228765)
   await channel.send(f"Espero que tenha gostado de tomar uma breja comigo {member.mention}... eh digo suco hehe")
+
 
 # ==================================== Comandos ====================================
 
@@ -47,7 +50,7 @@ async def comandos(ctx):
 async def loli(ctx, msg):
   loli_conversa_token = os.environ.get('RAPIDAPIKEYLOLI')
   boturl = "https://waifu.p.rapidapi.com/path"
-  
+
   # Definindo caracteristicas especificas da convesa
   user_id = ctx.author.id
   de = ctx.author
@@ -63,8 +66,13 @@ async def loli(ctx, msg):
     "X-RapidAPI-Key": loli_conversa_token
   }
   response = requests.request("POST", boturl, json=payload, headers=headers, params=querystring)
-  
+
   await ctx.send(response.text)
+
+# Digita F no chat
+@client.command()
+async def f(ctx):
+  await ctx.send('F no chat guys')
 
 # Entra em um Canal de Voz e Diz um ohayo bem massa
 @client.command(pass_content = True)
@@ -91,6 +99,19 @@ async def gemido(ctx):
     await ctx.guild.voice_client.disconnect()
   else:
     await ctx.send("Como que eu vou saber qual canal entrar? SEU TAPADO! entra em algum ai.")
+
+
+@client.command(pass_content = True)
+async def e_tudo(ctx):
+  if ctx.author.voice:
+    channel = ctx.message.author.voice.channel
+    voice = await channel.connect()
+    source = FFmpegPCMAudio('e-tudo.mp3')
+    player = voice.play(source)
+    await ctx.send("É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*.")
+  else:
+    await ctx.send("Como que eu vou saber qual canal entrar? SEU TAPADO! entra em algum ai.")
+
 
 # Sai de um Canal de voz
 @client.command(pass_content = True)
