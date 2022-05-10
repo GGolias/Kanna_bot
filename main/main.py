@@ -8,6 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 from discord.ext import commands
 from discord import FFmpegPCMAudio
 from time import sleep
+from datetime import datetime
 
 # Carrega o arquivo .env
 load_dotenv(find_dotenv())
@@ -17,6 +18,7 @@ intents.members = True
 
 # Define o prefixo dos comandos
 client = commands.Bot(command_prefix='!!', intents = intents)
+
 
 # ==================================== Eventos ====================================
 
@@ -37,13 +39,20 @@ async def on_member_remove(member):
   channel = client.get_channel(962462461171228765)
   await channel.send(f"Espero que tenha gostado de tomar uma breja comigo {member.mention}... eh digo suco hehe")
 
+# Caso diita f no chat
+@client.event
+async def on_message(message):
+   if message.content == "F":
+      await message.channel.send("F no chat guys :(")
+   else:
+      await client.process_commands(message)
 
 # ==================================== Comandos ====================================
 
 # Listar comandos
 @client.command()
 async def comandos(ctx):
-  await ctx.send('**COMANDOS** \n!!ohayo - dou um bom dia bem animado pra você! \n!!gemido - vou gemer no seu ouvido senpai-kun.\n!!loli - vou conversar com você até altas horas.')
+  await ctx.send('**COMANDOS** \n!!ohayo - dou um bom dia bem animado pra você! \n!!gemido - vou gemer no seu ouvido senpai-kun.\n!!loli - vou conversar com você até altas horas.\n!!f - F no chat guys :(\n!!e_tudo')
 
 # Falar com o Bot
 @client.command()
@@ -68,11 +77,6 @@ async def loli(ctx, msg):
   response = requests.request("POST", boturl, json=payload, headers=headers, params=querystring)
 
   await ctx.send(response.text)
-
-# Digita F no chat
-@client.command()
-async def f(ctx):
-  await ctx.send('F no chat guys')
 
 # Entra em um Canal de Voz e Diz um ohayo bem massa
 @client.command(pass_content = True)
@@ -100,18 +104,21 @@ async def gemido(ctx):
   else:
     await ctx.send("Como que eu vou saber qual canal entrar? SEU TAPADO! entra em algum ai.")
 
+# Entra em um canal de voz e toca Nego Bam - É Tudo Puta feat Daft Punk
 
 @client.command(pass_content = True)
-async def e_tudo(ctx):
+async def etudo(ctx):
   if ctx.author.voice:
     channel = ctx.message.author.voice.channel
     voice = await channel.connect()
     source = FFmpegPCMAudio('e-tudo.mp3')
     player = voice.play(source)
-    await ctx.send("É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*, É tudo put*.")
+    ctx.send("É tudo put@.")
+
+    sleep(78)
+    await ctx.guild.voice_client.disconnect()
   else:
     await ctx.send("Como que eu vou saber qual canal entrar? SEU TAPADO! entra em algum ai.")
-
 
 # Sai de um Canal de voz
 @client.command(pass_content = True)
@@ -120,6 +127,12 @@ async def leave(ctx):
     await ctx.guild.voice_client.disconnect()
   else:
     await ctx.send("Tô ai não! seu tobô!")
+
+
+@client.command()
+async def bomDiaPovo():
+  channel = client.get_channel(962462461171228765)
+  await channel.send("Bom dia meu povo!")
 
 
 client.run(os.environ.get('TOKEN'))
