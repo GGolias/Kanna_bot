@@ -42,7 +42,7 @@ async def on_member_remove(member):
 # Caso diita f no chat
 @client.event
 async def on_message(message):
-   if message.content == "F":
+   if message.content == "F" or message.content == "f":
       await message.channel.send("F no chat guys :(")
    else:
       await client.process_commands(message)
