@@ -9,6 +9,7 @@ from discord import FFmpegPCMAudio
 from time import sleep
 from datetime import datetime
 
+
 # Carrega o arquivo .env
 load_dotenv(find_dotenv())
 
@@ -22,11 +23,16 @@ client = commands.Bot(command_prefix='-', intents = intents, activity=activity)
 
 # ==================================== Eventos ====================================
 
+# Mostra o ping atual do bot e testando comandos globais.
+@client.slash_command(guild_ids = [1033440648340197376], description="mostra a latencia do bot")
+async def ping(ctx):
+  await ctx.send(f"velocidade do bot {round(client.latency*1000)}ms")
+
 # Status do Bot
 @client.event
 async def on_ready():
     print("Logamos com sucesso como {0.user}".format(client))
-    msg1.start()
+
 
 
 # Message 1
@@ -333,7 +339,6 @@ async def conversa(ctx, *, fala):
 async def convite(ctx):
   await ctx.send('toma ai seu lindo :relaxed:  \n https://discord.com/oauth2/authorize?client_id=962457964965396520&scope=bot&permissions=8', mention_author=True)
 
-  
 
 if __name__ == '__main__':
   client.run(os.environ.get('TOKEN'))
